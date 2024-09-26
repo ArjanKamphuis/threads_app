@@ -8,13 +8,13 @@ const Page = async (): Promise<React.JSX.Element | null> => {
     const user = await currentUser();
     if (!user) return null;
 
-    const userInfo: UserType = await fetchUser(user.id);
+    const userInfo: UserType | undefined = await fetchUser(user.id);
     if (!userInfo?.onboarded) redirect('/onboarding');
     
     return (
         <>
             <h1 className="head-text">Create Thread</h1>
-            <PostThread userId={userInfo._id} />
+            <PostThread userId={`${userInfo._id}`} />
         </>
     );
 };

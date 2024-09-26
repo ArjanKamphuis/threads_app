@@ -24,6 +24,7 @@ type UpdateCommunityParams = {
 export const createCommunity = async ({ id, name, username, image, bio, createdById }: CreateCommunityParams): Promise<CommunityType> => {
     try {
         await connectToDB();
+        
         const user = await User.findOne({ id: createdById });
         if (!user) throw new Error('User not found');
 

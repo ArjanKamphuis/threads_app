@@ -5,6 +5,7 @@ import User from "@/lib/models/user.model";
 import { connectToDB } from "../mongoose";
 import { revalidatePath } from "next/cache";
 import { FetchThreadsReturnType, ThreadType } from "../types";
+import Community from "../models/community.model";
 
 type CreateThreadParams = {
     text: string;
@@ -16,8 +17,12 @@ type CreateThreadParams = {
 export const createThread = async ({ text, author, communityId, path }: CreateThreadParams): Promise<void> => {
     try {
         await connectToDB();
-        const createdThread = await Thread.create({ text, author, community: communityId });
+        const community = (await Community.findOne({ id: communityId }))?._id || null;
+        const createdThread = await Thread.create({ text, author, community });
+
         await User.findByIdAndUpdate(author, { $push: { threads: createdThread._id }});
+        if (community) await Community.findByIdAndUpdate(community, { $push: { threads: createdThread._id }});
+
         revalidatePath(path);
     } catch (error: unknown) {
         throw new Error(`Error creating thread: ${error}`);

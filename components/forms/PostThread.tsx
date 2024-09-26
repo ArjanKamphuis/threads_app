@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { createThread } from "@/lib/actions/thread.actions";
 import { ThreadValidation } from "@/lib/validations/thread";
+import { useOrganization } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ import { z } from "zod";
 const PostThread = ({ userId }: { userId: string }): React.JSX.Element => {
     const pathname = usePathname();
     const router = useRouter();
+    const { organization } = useOrganization();
 
     const form = useForm({
         resolver: zodResolver(ThreadValidation),
@@ -24,7 +26,7 @@ const PostThread = ({ userId }: { userId: string }): React.JSX.Element => {
     });
 
     const onSubmit = async (values: z.infer<typeof ThreadValidation>): Promise<void> => {
-        await createThread({ text: values.thread, author: userId, communityId: null, path: pathname });
+        await createThread({ text: values.thread, author: userId, communityId: organization ? organization.id : null, path: pathname });
         router.push('/');
     };
 
