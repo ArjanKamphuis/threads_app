@@ -4,9 +4,9 @@ const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)']);
 // '/api/webhook/clerk(.*)', 
 
 export default clerkMiddleware((auth, request) => {
-    if (!isPublicRoute(request)) {
-        auth().protect();
-    }
+    // if (!isPublicRoute(request)) {
+    //     auth().protect();
+    // }
 });
 
 export const config = {
