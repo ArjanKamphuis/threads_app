@@ -17,7 +17,14 @@ const Page = async ({ params }: { params: { id: string }}): Promise<React.JSX.El
 
     return (
         <section>
-            <ProfileHeader account={profileUser} authUserId={user.id} />
+            <ProfileHeader
+                accountId={profileUser.id}
+                authUserId={user.id}
+                name={profileUser.name}
+                username={profileUser.username}
+                image={profileUser.image}
+                bio={profileUser.bio}
+            />
             <div className="mt-9">
                 <Tabs defaultValue="threads" className="w-full">
                     <TabsList className="tab">

@@ -1,16 +1,21 @@
 import AccountProfile from "@/components/forms/AccountProfile";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const Page = async (): Promise<React.JSX.Element> => {
     const user = await currentUser();
-    const userInfo = {};
+    if (!user) redirect('/sign-in');
+
+    const userInfo = await fetchUser(user.id);
+    if (userInfo?.onboarded) redirect('/');
+
     const userData = {
-        id: user?.id,
-        objectId: userInfo?._id,
-        username: userInfo?.username || user?.username,
-        name: userInfo?.name || user?.firstName || '',
+        id: user.id,
+        username: userInfo?.username || user.username || '',
+        name: userInfo?.name || user.firstName || '',
         bio: userInfo?.bio || '',
-        image: userInfo?.image || user?.imageUrl
+        image: userInfo?.image || user.imageUrl
     };
 
     return (

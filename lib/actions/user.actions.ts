@@ -40,7 +40,7 @@ export const updateUser = async ({ userId, username, name, bio, image, path }: U
             { upsert: true }
         );
 
-        if (path === '/profile/edit') {
+        if (path === '/profiles/edit') {
             revalidatePath(path);
         }
     } catch (error: unknown) {

@@ -37,8 +37,19 @@ export type FetchThreadsReturnType = {
     isNext: boolean;
 };
 
+export type FetchThreadByIdReturnType = {
+    thread: ThreadType;
+    comments: ThreadType[];
+    isNext: boolean;
+};
+
 export type FetchUsersReturnType = {
     users: UserType[];
+    isNext: boolean;
+};
+
+export type FetchCommunitiesReturnType = {
+    communities: CommunityType[];
     isNext: boolean;
 };
 

@@ -40,3 +40,12 @@ export function formatThreadCount(count: number): string {
         return `${threadCount} ${threadWord}`;
     }
 }
+
+export const updateSearchParams = (key: 'search' | 'page', value: string): string => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (key === 'page' && value === '1') searchParams.delete('page');
+    else if (value) searchParams.set(key, value);
+    else searchParams.delete(key);
+    if (key === 'search') searchParams.delete('page');
+    return `${window.location.pathname}?${searchParams}`;
+;}

@@ -9,10 +9,9 @@ type UserCardProps = {
     name: string;
     username: string;
     image: string;
-    personType?: 'User';
 };
 
-const UserCard = ({ id, name, username, image, personType }: UserCardProps): React.JSX.Element => {
+const UserCard = ({ id, name, username, image }: UserCardProps): React.JSX.Element => {
     const router = useRouter();
     return (
         <article className="user-card">

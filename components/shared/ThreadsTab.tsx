@@ -1,16 +1,19 @@
 import { fetchUserThreads } from "@/lib/actions/user.actions";
-import { UserType } from "@/lib/types";
+import { CommunityType, UserType } from "@/lib/types";
 import { redirect } from "next/navigation";
 import ThreadCard from "../cards/ThreadCard";
+import { fetchCommunityThreads } from "@/lib/actions/community.actions";
 
 type ThreadsTabProps = {
     currentUserId: string;
     accountId: string;
-    accountType?: 'User';
+    accountType?: 'User' | 'Community';
 };
 
 const ThreadsTab = async ({ currentUserId, accountId, accountType }: ThreadsTabProps): Promise<React.JSX.Element> =>  {
-    const result: UserType = await fetchUserThreads(accountId);
+    const result: UserType | CommunityType | undefined = accountType === 'User'
+        ? await fetchUserThreads(accountId)
+        : await fetchCommunityThreads(accountId);
     if (!result) redirect('/');
     
     return (
@@ -27,7 +30,11 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType }: ThreadsTabP
                             ? { name: result.name, image: result.image, id: result.id }
                             : { name: thread.author.name, image: thread.author.image, id: `${thread.author._id}` }
                     }
-                    community={thread.community}
+                    community={
+                        accountType === 'User' && thread.community
+                        ? { name: thread.community.name, image: thread.community.image, id: thread.community.id }
+                        : { name: result.name, image: result.image, id: result.id }
+                    }
                     createdAt={thread.createdAt}
                     comments={thread.children}
                 />

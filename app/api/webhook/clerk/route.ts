@@ -77,7 +77,7 @@ export const POST = async (request: Request) => {
         } catch (err) {
             console.log(err);
             return NextResponse.json(
-                { message: "Internal Server Error" },
+                { message: `Internal Server Error: ${err}` },
                 { status: 500 }
             );
         }
@@ -99,7 +99,7 @@ export const POST = async (request: Request) => {
             console.log(err);
 
             return NextResponse.json(
-                { message: "Internal Server Error" },
+                { message: `Internal Server Error: ${err}` },
                 { status: 500 }
             );
         }
@@ -124,7 +124,7 @@ export const POST = async (request: Request) => {
             console.log(err);
 
             return NextResponse.json(
-                { message: "Internal Server Error" },
+                { message: `Internal Server Error: ${err}` },
                 { status: 500 }
             );
         }
@@ -139,14 +139,14 @@ export const POST = async (request: Request) => {
             console.log("removed", evnt?.data);
 
             // @ts-expect-error recordcasting
-            await removeUserFromCommunity(public_user_data.user_id, organization.id);
+            await removeUserFromCommunity(organization.id, public_user_data.user_id);
 
-            return NextResponse.json({ message: "Member removed" }, { status: 201 });
+            return NextResponse.json({ message: "Member removed" }, { status: 200 });
         } catch (err) {
             console.log(err);
 
             return NextResponse.json(
-                { message: "Internal Server Error" },
+                { message: `Internal Server Error: ${err}` },
                 { status: 500 }
             );
         }
@@ -163,12 +163,12 @@ export const POST = async (request: Request) => {
             // @ts-expect-error recordcasting
             await updateCommunityInfo({ id, name, username: slug, image: logo_url });
 
-            return NextResponse.json({ message: "Member removed" }, { status: 201 });
+            return NextResponse.json({ message: 'Community Updated' }, { status: 200 });
         } catch (err) {
             console.log(err);
 
             return NextResponse.json(
-                { message: "Internal Server Error" },
+                { message: `Internal Server Error: ${err}` },
                 { status: 500 }
             );
         }
@@ -187,13 +187,13 @@ export const POST = async (request: Request) => {
 
             return NextResponse.json(
                 { message: "Organization deleted" },
-                { status: 201 }
+                { status: 200 }
             );
         } catch (err) {
             console.log(err);
 
             return NextResponse.json(
-                { message: "Internal Server Error" },
+                { message: `Internal Server Error: ${err}` },
                 { status: 500 }
             );
         }

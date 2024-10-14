@@ -15,10 +15,15 @@ import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
 import { updateUser } from "@/lib/actions/user.actions";
 import { usePathname, useRouter } from "next/navigation";
-import { UserType } from "@/lib/types";
 
 type AccountProfileProps = {
-    user: UserType;
+    user: {
+        id: string;
+        name: string;
+        username: string;
+        bio: string;
+        image: string;
+    };
     btnTitle: string;
 };
 
@@ -72,7 +77,7 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProps): React.JSX.Elem
             image: values.profile_photo,
             path: pathname
         });
-        if (pathname === '/profile/edit') {
+        if (pathname === '/profiles/edit') {
             router.back();
         } else {
             router.push('/');
